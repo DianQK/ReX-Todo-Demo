@@ -15,7 +15,7 @@ struct TodoItemModel {
     let id: Int64
     var name: String
     var content: String?
-    let isCompleted: Bool
+    var isCompleted: Bool
 
     init(object: Any) throws {
         guard let dictionary = object as? [String: Any],

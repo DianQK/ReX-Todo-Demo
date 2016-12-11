@@ -100,11 +100,14 @@ extension ReX.Action where Base: TodoStore {
 
     func deleteItem() -> ((TodoItemModel) -> Observable<RequestState>) {
         return { [unowned store = self.base as TodoStore]  item in
-            Session.rx.send(TodoRequest.DeleteItem(id: item.id))
-                .do(onNext: store.commit.deleteItem())
-                .map { _ in RequestState.success("更新成功") }
-                .startWith(RequestState.isLoading)
-                .catchErrorJustReturn(RequestState.failure("更新失败"))
+            showEnsure("确定删除\(item.name)吗？")
+                .flatMap {
+                    Session.rx.send(TodoRequest.DeleteItem(id: item.id))
+                        .do(onNext: store.commit.deleteItem())
+                        .map { _ in RequestState.success("删除成功") }
+                        .startWith(RequestState.isLoading)
+                        .catchErrorJustReturn(RequestState.failure("删除失败"))
+            }
         }
     }
 
@@ -112,9 +115,9 @@ extension ReX.Action where Base: TodoStore {
         return { [unowned store = self.base as TodoStore] name, note in
             Session.rx.send(TodoRequest.CreateItem(name: name, content: note))
                 .do(onNext: store.commit.addItem())
-                .map { _ in RequestState.success("更新成功") }
+                .map { _ in RequestState.success("添加成功") }
                 .startWith(RequestState.isLoading)
-                .catchErrorJustReturn(RequestState.failure("更新失败"))
+                .catchErrorJustReturn(RequestState.failure("添加失败"))
         }
     }
 
@@ -122,9 +125,9 @@ extension ReX.Action where Base: TodoStore {
         return { [unowned store = self.base as TodoStore] item in
             Session.rx.send(TodoRequest.EditItem(id: item.id, name: item.name, content: item.content, isCompleted: item.isCompleted))
                 .do(onNext: store.commit.editItem())
-                .map { _ in RequestState.success("更新成功") }
+                .map { _ in RequestState.success("保存成功") }
                 .startWith(RequestState.isLoading)
-                .catchErrorJustReturn(RequestState.failure("更新失败"))
+                .catchErrorJustReturn(RequestState.failure("保存失败"))
         }
     }
 
@@ -132,9 +135,9 @@ extension ReX.Action where Base: TodoStore {
         return { [unowned store = self.base as TodoStore] item in
             Session.rx.send(TodoRequest.EditItem(id: item.id, name: item.name, content: item.content, isCompleted: true))
                 .do(onNext: store.commit.editItem())
-                .map { _ in RequestState.success("更新成功") }
+                .map { _ in RequestState.success("已完成") }
                 .startWith(RequestState.isLoading)
-                .catchErrorJustReturn(RequestState.failure("更新失败"))
+                .catchErrorJustReturn(RequestState.failure("请求失败"))
         }
     }
 

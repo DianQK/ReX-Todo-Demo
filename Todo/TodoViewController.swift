@@ -11,12 +11,11 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-
-
 class TodoViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var createTodoBarButtonItem: UIBarButtonItem!
+    
 
     private let store = TodoStore()
     fileprivate let dataSource = RxTableViewSectionedAnimatedDataSource<TodoSectionModel>()

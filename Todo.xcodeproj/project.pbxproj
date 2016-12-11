@@ -29,7 +29,7 @@
 		2661F1101DFAFBC7009E08D9 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2661F1081DFAFBC7009E08D9 /* RxCocoa.framework */; };
 		2661F1111DFAFBC7009E08D9 /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2661F1091DFAFBC7009E08D9 /* RxDataSources.framework */; };
 		2661F1121DFAFBC7009E08D9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2661F10A1DFAFBC7009E08D9 /* RxSwift.framework */; };
-		2661F1131DFAFBC7009E08D9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2661F10B1DFAFBC7009E08D9 /* SwiftyJSON.framework */; };
+		56B4CAC31DFD07C1007F5A43 /* RxKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B4CAC21DFD07C1007F5A43 /* RxKeyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +70,7 @@
 		2661F1091DFAFBC7009E08D9 /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		2661F10A1DFAFBC7009E08D9 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2661F10B1DFAFBC7009E08D9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		56B4CAC21DFD07C1007F5A43 /* RxKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxKeyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +85,6 @@
 				2661F1101DFAFBC7009E08D9 /* RxCocoa.framework in Frameworks */,
 				2661F1111DFAFBC7009E08D9 /* RxDataSources.framework in Frameworks */,
 				2661F1121DFAFBC7009E08D9 /* RxSwift.framework in Frameworks */,
-				2661F1131DFAFBC7009E08D9 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +101,7 @@
 		2627C59C1DFBDD9F00134302 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				56B4CAC21DFD07C1007F5A43 /* RxKeyboard.swift */,
 				264995521DFC2CFA00E2B3FD /* AutoDeselect.swift */,
 				264995501DFC1BB800E2B3FD /* HUD.swift */,
 				2649954C1DFBE09300E2B3FD /* Alert.swift */,
@@ -286,7 +287,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxDataSources.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 			);
 			outputPaths = (
 			);
@@ -307,6 +307,7 @@
 				2627C5971DFBC53800134302 /* TodoItemModel.swift in Sources */,
 				2627C5951DFBC52A00134302 /* TodoStore.swift in Sources */,
 				2649954B1DFBE02D00E2B3FD /* TodoItemViewController.swift in Sources */,
+				56B4CAC31DFD07C1007F5A43 /* RxKeyboard.swift in Sources */,
 				2627C59E1DFBDDAE00134302 /* Session+Rx.swift in Sources */,
 				2649954E1DFBE09300E2B3FD /* Alert.swift in Sources */,
 				2627C5991DFBD8EE00134302 /* TodoRequest.swift in Sources */,

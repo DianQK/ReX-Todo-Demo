@@ -36,7 +36,7 @@ struct TodoItemModel {
 extension TodoItemModel: Hashable, IdentifiableType {
 
     static func ==(lhs: TodoItemModel, rhs: TodoItemModel) -> Bool {
-        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.isCompleted == rhs.isCompleted
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.isCompleted == rhs.isCompleted && lhs.content == rhs.content
     }
 
     var hashValue: Int {

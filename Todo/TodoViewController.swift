@@ -15,7 +15,6 @@ class TodoViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var createTodoBarButtonItem: UIBarButtonItem!
-    
 
     private let store = TodoStore()
     fileprivate let dataSource = RxTableViewSectionedAnimatedDataSource<TodoSectionModel>()
@@ -66,21 +65,17 @@ class TodoViewController: UIViewController {
             updateList.map { $0.isLoading }
                 .bindTo(refresh.rx.refreshing)
                 .addDisposableTo(disposeBag)
-
-            updateList.map { $0.message }
-                .bindTo(view.rx.showMessage)
+            
+            updateList
+                .bindTo(view.rx.requestState)
                 .addDisposableTo(disposeBag)
 
         }
 
         do {
             createTodoBarButtonItem.rx.tap.asObservable()
-                .subscribe(onNext: { [unowned self] in
-                    let todoItemViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TodoItemViewController") as! TodoItemViewController
-                    todoItemViewController.store = self.store
-                    todoItemViewController.type = .new
-                    self.show(todoItemViewController, sender: nil)
-                })
+                .map { TodoItemViewController.EditType.new }
+                .subscribe(onNext: showItemViewController)
                 .addDisposableTo(disposeBag)
         }
 
@@ -93,12 +88,8 @@ class TodoViewController: UIViewController {
         tableView.rx.enableAutoDeselect().addDisposableTo(disposeBag)
 
         tableView.rx.modelSelected(TodoItemModel.self)
-            .subscribe(onNext: { [unowned self] item in
-                let todoItemViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TodoItemViewController") as! TodoItemViewController
-                todoItemViewController.store = self.store
-                todoItemViewController.type = .edit(item)
-                self.show(todoItemViewController, sender: nil)
-            })
+            .map { TodoItemViewController.EditType.edit($0) }
+            .subscribe(onNext: showItemViewController)
             .addDisposableTo(disposeBag)
 
 
@@ -116,6 +107,15 @@ class TodoViewController: UIViewController {
             .bindTo(view.rx.requestState)
             .addDisposableTo(disposeBag)
 
+    }
+    
+    private var showItemViewController: ((TodoItemViewController.EditType) -> Void) {
+        return { [unowned self] editType in
+            let todoItemViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TodoItemViewController") as! TodoItemViewController
+            todoItemViewController.store = self.store
+            todoItemViewController.editType = editType
+            self.show(todoItemViewController, sender: nil)
+        }
     }
 
 }

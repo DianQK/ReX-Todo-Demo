@@ -18,15 +18,17 @@ class TodoItemViewController: UIViewController {
     @IBOutlet private weak var isCompletedSwitch: UISwitch!
     @IBOutlet private weak var deleteButton: UIButton!
     @IBOutlet weak var isCompletedSectionView: UIStackView!
+    
+    @IBOutlet weak var containerScrollView: UIScrollView!
 
     var store: TodoStore!
 
-    enum `Type` {
+    enum EditType {
         case new
         case edit(TodoItemModel)
     }
 
-    var type: Type = .new
+    var editType: EditType = .new
 
     private let disposeBag = DisposeBag()
 
@@ -35,11 +37,11 @@ class TodoItemViewController: UIViewController {
 
         let requestState: Observable<RequestState>
 
-        switch type {
+        switch editType {
         case .new:
             self.title = "创建新的待办事项"
             self.deleteButton.isHidden = true
-            self.isCompletedSwitch.isOn = false
+            self.isCompletedSectionView.isHidden = true
 
             requestState = saveBarButtonItem.rx.tap.asObservable()
                 .withLatestFrom(Observable.combineLatest(nameTextField.rx.text.orEmpty, noteTextView.rx.text, resultSelector: { (name: $0, note: $1) }))
@@ -62,7 +64,7 @@ class TodoItemViewController: UIViewController {
             let saveState = saveBarButtonItem.rx.tap.asObservable()
                 .withLatestFrom(Observable.combineLatest(
                     nameTextField.rx.text.orEmpty.startWith(item.name),
-                    noteTextView.rx.text.startWith(item.content),
+                    noteTextView.rx.text.startWith(item.content).debug("note"),
                     isCompletedSwitch.rx.value,
                     resultSelector: { name, note, isCompleted in
                         var item = item
@@ -90,6 +92,14 @@ class TodoItemViewController: UIViewController {
         nameTextField.rx.text.orEmpty
             .map { !$0.isEmpty }
             .bindTo(saveBarButtonItem.rx.isEnabled)
+            .addDisposableTo(disposeBag)
+        
+        RxKeyboard.shared.visibleHeight
+            .map { UIEdgeInsets(top: 64, left: 0, bottom: $0, right: 0) }.asObservable()
+            .subscribe(onNext: { [unowned self] inset in
+                self.containerScrollView.contentInset = inset
+                self.containerScrollView.scrollIndicatorInsets = inset
+            })
             .addDisposableTo(disposeBag)
 
     }

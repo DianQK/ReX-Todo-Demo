@@ -30,7 +30,7 @@ class HUD {
         hud.removeFromSuperViewOnHide = true
         hud.isUserInteractionEnabled = false
 
-        hud.hide(animated: true, afterDelay: 1)
+        hud.hide(animated: true, afterDelay: 1.5)
     }
 
     static func showLoading(_ isLoading: Bool, for view: UIView) {
@@ -95,7 +95,7 @@ extension Reactive where Base: UIView {
                 HUD.showLoading(true, for: view)
             case let .success(message), let .failure(message):
                 HUD.showLoading(false, for: view)
-                HUD.showMessage(message, for: view)
+                HUD.showMessage(message)//, for: view)
             }
         }
     }

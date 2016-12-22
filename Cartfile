@@ -1,4 +1,4 @@
-github "DianQK/ReX" ~> 0.9
+github "ReXSwift/ReX" "1.0.0-rc.2"
 github "ReactiveX/RxSwift" ~> 3.0
 github "RxSwiftCommunity/RxDataSources" ~> 1.0
 github "ishkawa/APIKit" ~> 3.0

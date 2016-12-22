@@ -45,7 +45,7 @@ class TodoItemViewController: UIViewController {
 
             requestState = saveBarButtonItem.rx.tap.asObservable()
                 .withLatestFrom(Observable.combineLatest(nameTextField.rx.text.orEmpty, noteTextView.rx.text, resultSelector: { (name: $0, note: $1) }))
-                .flatMap(store.dispatch.addItem())
+                .flatMap(store.dispatch.addItem)
                 .shareReplay(1)
         case let .edit(item):
             self.title = item.name
@@ -58,13 +58,13 @@ class TodoItemViewController: UIViewController {
 
             let deleteState = deleteButton.rx.tap.asObservable()
                 .map { item }
-                .flatMap(store.dispatch.deleteItem())
+                .flatMap(store.dispatch.deleteItem)
                 .shareReplay(1)
 
             let saveState = saveBarButtonItem.rx.tap.asObservable()
                 .withLatestFrom(Observable.combineLatest(
                     nameTextField.rx.text.orEmpty.startWith(item.name),
-                    noteTextView.rx.text.startWith(item.content).debug("note"),
+                    noteTextView.rx.text.startWith(item.content),
                     isCompletedSwitch.rx.value,
                     resultSelector: { name, note, isCompleted in
                         var item = item
@@ -73,7 +73,7 @@ class TodoItemViewController: UIViewController {
                         item.isCompleted = isCompleted
                         return item
                 }))
-                .flatMap(store.dispatch.editItem())
+                .flatMap(store.dispatch.editItem)
                 .shareReplay(1)
 
             requestState = Observable.from([deleteState, saveState]).merge()

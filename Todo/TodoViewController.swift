@@ -59,7 +59,7 @@ class TodoViewController: UIViewController {
             tableView.refreshControl = refresh
             let updateList = refresh.rx.controlEvent(.valueChanged)
                 .startWith(())
-                .flatMap(store.dispatch.updateList())
+                .flatMap(store.dispatch.updateList)
                 .shareReplay(1)
 
             updateList.map { $0.isLoading }
@@ -98,12 +98,12 @@ class TodoViewController: UIViewController {
             .shareReplay(1)
 
         item.filter { $0.isCompleted }
-            .flatMap(store.dispatch.deleteItem())
+            .flatMap(store.dispatch.deleteItem)
             .bindTo(view.rx.requestState)
             .addDisposableTo(disposeBag)
 
         item.filter { !$0.isCompleted }
-            .flatMap(store.dispatch.completedItem())
+            .flatMap(store.dispatch.completedItem)
             .bindTo(view.rx.requestState)
             .addDisposableTo(disposeBag)
 
